@@ -34,7 +34,8 @@ async function run() {
         // Create Coffees
         app.post('/coffees', async (req, res) => {
             const data = req.body;
-            console.log(data);
+            const result = await coffeesCollection.insertOne(data);
+            res.send(result);
         })
     } finally {
         // await client.close();
