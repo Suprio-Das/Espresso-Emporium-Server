@@ -74,6 +74,14 @@ async function run() {
             const result = coffeesCollection.updateOne(filter, updatedCoffee, options);
             res.send(result);
         })
+
+        // Delete a Coffee
+        app.delete('/coffees/:id', (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const result = coffeesCollection.deleteOne(filter);
+            res.send(result);
+        })
     } finally {
         // await client.close();
     }
