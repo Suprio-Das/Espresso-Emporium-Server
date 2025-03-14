@@ -54,7 +54,7 @@ async function run() {
         });
 
         // Update Coffee
-        app.put('/coffees/:id', (req, res) => {
+        app.put('/coffees/:id', async (req, res) => {
             const id = req.params.id;
             const data = req.body;
             const filter = { _id: new ObjectId(id) };
@@ -71,15 +71,15 @@ async function run() {
                     price: data.price
                 }
             }
-            const result = coffeesCollection.updateOne(filter, updatedCoffee, options);
+            const result = await coffeesCollection.updateOne(filter, updatedCoffee, options);
             res.send(result);
         })
 
         // Delete a Coffee
-        app.delete('/coffees/:id', (req, res) => {
+        app.delete('/coffees/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) };
-            const result = coffeesCollection.deleteOne(filter);
+            const result = await coffeesCollection.deleteOne(filter);
             res.send(result);
         })
     } finally {
