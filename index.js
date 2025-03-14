@@ -31,6 +31,12 @@ async function run() {
         // Creating Database
         const coffeesCollection = client.db('EspressoEmporium').collection('coffees');
 
+        // Read Coffees
+        app.get('/coffees', async (req, res) => {
+            const data = await coffeesCollection.find().toArray();
+            res.send(data);
+        })
+
         // Create Coffees
         app.post('/coffees', async (req, res) => {
             const data = req.body;
