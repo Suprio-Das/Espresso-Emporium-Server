@@ -40,7 +40,7 @@ async function run() {
         // Read Single Coffee
         app.get('/coffees/:id', async (req, res) => {
             const id = req.params.id;
-            const filter = new ObjectId(id);
+            const filter = { _id: new ObjectId(id) };
             const result = await coffeesCollection.findOne(filter);
             console.log(result);
             res.send(result);
@@ -50,6 +50,28 @@ async function run() {
         app.post('/coffees', async (req, res) => {
             const data = req.body;
             const result = await coffeesCollection.insertOne(data);
+            res.send(result);
+        });
+
+        // Update Coffee
+        app.put('/coffees/:id', (req, res) => {
+            const id = req.params.id;
+            const data = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedCoffee = {
+                $set: {
+                    name: data.name,
+                    chef: data.chef,
+                    category: data.category,
+                    supplier: data.supplier,
+                    taste: data.taste,
+                    details: data.details,
+                    photo: data.photo,
+                    price: data.price
+                }
+            }
+            const result = coffeesCollection.updateOne(filter, updatedCoffee, options);
             res.send(result);
         })
     } finally {
