@@ -28,7 +28,14 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         await client.connect();
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        // Creating Database
+        const coffeesCollection = client.db('EspressoEmporium').collection('coffees');
+
+        // Create Coffees
+        app.post('/coffees', async (req, res) => {
+            const data = req.body;
+            console.log(data);
+        })
     } finally {
         // await client.close();
     }
